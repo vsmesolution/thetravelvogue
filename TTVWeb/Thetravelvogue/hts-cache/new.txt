@@ -1,0 +1,3 @@
+date	size'/'remotesize	flags(request:Update,Range state:File response:Modified,Chunked,gZipped)	statuscode	status ('servermsg')	MIME	Etag|Date	URL	localfile	(from URL)
+13:09:54	795/795	---M--	301	error ('Moved%20Permanently')	text/html	date:Sat,%2008%20Aug%202026%2007:39:56%20GMT	http://www.thetravelvogue.com/robots.txt		(from )
+13:09:54	795/795	---M--	301	error ('Moved%20Permanently')	text/html	date:Sat,%2008%20Aug%202026%2007:39:56%20GMT	http://www.thetravelvogue.com/	C:/TTV/travelvogue-firebase/TTVWeb/Thetravelvogue/www.thetravelvogue.com/index.html	(from )
