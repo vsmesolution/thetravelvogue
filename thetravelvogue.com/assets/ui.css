@@ -116,6 +116,20 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--tv-head); color: var(--tv-dark); lin
 
 /* header icons */
 #navigation .top-search-classes { display: flex; align-items: center; gap: 10px; }
+#navigation .top-search-classes ul, #navigation .top-search-classes li { list-style: none; margin: 0; padding: 0; }
+#navigation #penci-header-bookmark a, #navigation .search-click {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: var(--tv-dark);
+  border-radius: 50%;
+  transition: background .2s, color .2s;
+}
+#navigation #penci-header-bookmark a:hover, #navigation .search-click:hover { color: var(--tv-accent); background: var(--tv-bg-soft); }
+#navigation .penciicon-magnifiying-glass, #navigation .penciicon-shopping-cart, #navigation .fa { display: inline-flex; }
+.tv-icon { display: block; vertical-align: middle; }
 #navigation .pcheader-icon a {
   display: inline-flex;
   align-items: center;
@@ -389,6 +403,50 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--tv-head); color: var(--tv-dark); lin
   transition: background .2s, transform .2s;
 }
 .elementor-button:hover, .penci-button:hover { background: var(--tv-accent-dark); transform: translateY(-1px); }
+
+/* ============ Image gallery ============ */
+.penci-image-gallery .penci-image-holder {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--tv-bg-soft);
+  border-radius: var(--tv-radius);
+  box-shadow: 0 2px 10px rgba(15,23,42,.06);
+  transition: transform .25s, box-shadow .25s;
+}
+.penci-image-gallery .penci-image-holder:hover { box-shadow: var(--tv-shadow); transform: translateY(-2px); }
+.penci-image-gallery .penci-image-holder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10,20,40,0) 40%, rgba(10,20,40,.55));
+}
+.penci-image-gallery .penci-image-holder .caption {
+  position: absolute;
+  left: 14px; bottom: 12px;
+  z-index: 2;
+  margin: 0;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+.penci-image-gallery .penci-image-holder .penciicon-expand { display: none; }
+.penci-image-gallery .pencisc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.penci-image-gallery .penci-gallery-item { list-style: none; margin: 0; }
+@media (max-width: 1024px) {
+  .penci-image-gallery .pencisc-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .penci-image-gallery .pencisc-grid { grid-template-columns: 1fr; }
+}
 
 /* ============ Testimonials ============ */
 .penci-testimonails .swiper-wrapper { display: flex; gap: 20px; flex-wrap: wrap; }

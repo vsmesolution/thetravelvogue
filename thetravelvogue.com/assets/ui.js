@@ -203,4 +203,50 @@
     if (img.complete && img.naturalWidth === 0 && img.offsetWidth > 20) markBroken(img);
     img.addEventListener('error', function () { markBroken(img); });
   });
+
+  /* ---------- Missing icon fonts: inject inline SVG icons ---------- */
+  var tvIcons = {
+    'penciicon-magnifiying-glass': '<svg class="tv-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>',
+    'penciicon-shopping-cart': '<svg class="tv-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 7H6"/></svg>',
+    'penciicon-bookmark': '<svg class="tv-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg>',
+    'penciicon-expand': '<svg class="tv-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 8H4v4M16 8h4v4M8 16H4v-4M16 16h4v-4"/></svg>'
+  };
+  function iconClass(el) {
+    var cls = (el.className || '').toString();
+    if (cls.indexOf('fa fa-bookmark') !== -1) return 'penciicon-bookmark';
+    return cls.split(/\s+/).filter(function (c) { return tvIcons[c]; })[0] || null;
+  }
+  $all('.penciicon-magnifiying-glass, .penciicon-shopping-cart, .penciicon-expand, .fa.fa-bookmark-o, .fa.fa-bookmark').forEach(function (el) {
+    var key = iconClass(el);
+    if (key && !el.querySelector('svg')) el.innerHTML = tvIcons[key];
+  });
+
+  /* ---------- Background images from data-bgset (lazy bg holders) ---------- */
+  var bgMap = {
+    'generated-image-12-1024x683.png': 'wp-content/uploads/2025/11/generated-image-12-1170x780.png',
+    'generated-image-13-1024x683.jpg': 'wp-content/uploads/2025/11/generated-image-13-1170x780.jpg',
+    'generated-image-14-1024x585.png': 'wp-content/uploads/2025/11/generated-image-14-1170x669.png'
+  };
+  function localBgPath(src) {
+    if (!src) return null;
+    var u = String(src).split('?')[0];
+    var file = u.split('/').pop();
+    if (bgMap[file]) return bgMap[file];
+    u = u.replace(/^https?:\/\/(i0\.wp\.com\/)?(thetravelvogue\.com|thetravelvogue\.in)\/wp-content\//, 'wp-content/');
+    return u;
+  }
+  $all('.penci-lazy[data-bgset], [data-bgset]').forEach(function (el) {
+    var orig = el.getAttribute('data-bgset');
+    var local = localBgPath(orig);
+    if (!local || local === orig) return;
+    el.setAttribute('data-bgset', local);
+    if (el.style.backgroundImage) el.style.backgroundImage = 'url(' + base + local + ')';
+    var t = new Image();
+    t.onerror = function () {
+      if (el.dataset.tvBgFallback) return;
+      el.dataset.tvBgFallback = '1';
+      el.style.backgroundImage = 'url(' + fallbackFor({ getAttribute: function () { return local || ''; } }) + ')';
+    };
+    t.src = base + local;
+  });
 })();
